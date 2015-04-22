@@ -1,0 +1,26 @@
+{
+    "name": "okierazorback/usgs",
+    "description": "A wrapper for a better USGS api.",
+    "keywords": [
+        "USGS",
+        "United States Geological Survey",
+        "Earthquake"
+    ],
+    "homepage": "https://bitbucket.org/OkieRazorback/usgs",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chad 'OkieRazorback' Jennings",
+            "email": "the.okierazorback@gmail.com",
+            "homepage": "http://theokierazorbacks.us",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "guzzlehttp/guzzle": "5.2.*"
+    },
+    "autoload": {
+        "psr-4": {"USGS\\": "src/USGS/"}
+    }
+}
