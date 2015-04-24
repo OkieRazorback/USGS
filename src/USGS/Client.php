@@ -7,9 +7,10 @@ use GuzzleHttp;
 
 class Client
 {
-    protected $baseURI = 'http://earthquake.usgs.gov/';
-    protected $fdsnWebServiceURI = 'fdsnws/event/1/';
+    protected $baseURI = 'http://earthquake.usgs.gov';
+    protected $fdsnWebServiceURI = '/fdsnws/event/1/';
     protected $client = null;
+    protected $action = null;
     protected $request = null;
 
     public $response = null;
@@ -23,13 +24,13 @@ class Client
 
     public function get($uri, $params = array())
     {
-        $request = $this->client->get($uri, array(), array('exceptions' => false));
+        $request = $this->client->createRequest('GET', $uri);
 
         foreach ($params as $key => $value) {
             $request->getQuery()->set($key, $value);
         }
 
-        $this->response = $request->send();
+        $this->response = $this->client->send($request);
         $this->statusCode = $this->response->getStatusCode();
 
         return $this->response->json();
@@ -49,8 +50,25 @@ class Client
         }
     }
 
+    /**
+     * @return null
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * @param null $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    }
+
+
     public function getUri()
     {
-        return $this->baseURI . $this->fdsnWebServiceURI;
+        return $this->baseURI . $this->fdsnWebServiceURI . $this->action;
     }
 }
