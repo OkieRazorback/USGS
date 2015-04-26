@@ -19,6 +19,7 @@ class EarthQuake extends USGS
     {
         $this->addParams(
             [
+                'format' => 'geojson',
                 'starttime' => Carbon::now('UTC')->subHour(),
                 'endtime' => Carbon::now('UTC'),
                 'minmagnitude' => $minMagnitude
@@ -36,6 +37,7 @@ class EarthQuake extends USGS
     {
         $this->addParams(
             [
+                'format' => 'geojson',
                 'starttime' => Carbon::now('UTC')->subDay(),
                 'endtime' => Carbon::now('UTC'),
                 'minmagnitude' => $minMagnitude
@@ -53,6 +55,7 @@ class EarthQuake extends USGS
     {
         $this->addParams(
             [
+                'format' => 'geojson',
                 'starttime' => Carbon::now('UTC')->subDays(30),
                 'endtime' => Carbon::now('UTC'),
                 'minmagnitude' => $minMagnitude
@@ -68,8 +71,6 @@ class EarthQuake extends USGS
      */
     public function getQuakes($action = 'query')
     {
-        $this->addParam('format', 'geojson');
-
         $this->setAction($action);
 
         return $this->load();
