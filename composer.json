@@ -1,5 +1,6 @@
 {
     "name": "okierazorback/usgs",
+    "type": "library",
     "description": "A wrapper for a better USGS api.",
     "keywords": [
         "USGS",
