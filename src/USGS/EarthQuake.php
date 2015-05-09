@@ -73,6 +73,6 @@ class EarthQuake extends USGS
     {
         $this->setAction($action);
 
-        return $this->load();
+        return $this->load()->getPayLoad();
     }
 }

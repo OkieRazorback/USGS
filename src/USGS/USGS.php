@@ -45,6 +45,8 @@ class USGS
 
         $this->count = array_key_exists('metadata', $json) ? $json['metadata']['count'] : $json['count'];
         $this->payLoad = $json;
+
+        return $this;
     }
 
     /**
