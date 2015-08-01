@@ -2,16 +2,25 @@
 
 namespace USGS;
 
+use GuzzleHttp;
+
 /**
  * Class USGS
  * @package USGS
  */
 class USGS
 {
+    const BASE_URI = 'http://earthquake.usgs.gov/fdsnws/event/1/';
+
     /**
-     * @var null|Client
+     * @var GuzzleHttp\Client|null
      */
-    protected $client = null;
+    private $client = null;
+
+    /**
+     * @var GuzzleHttp\Psr7\Response|null
+     */
+    private $response = null;
 
     /**
      * @var array
@@ -24,64 +33,44 @@ class USGS
     protected $count = 0;
 
     /**
-     * @var string
+     * @param GuzzleHttp\Client $client
      */
-    protected $payLoad  = '';
-
-    /**
-     * @param Client $client
-     */
-    public function __construct(Client $client)
-    {
+    public function __construct(GuzzleHttp\Client $client) {
         $this->client = $client;
     }
 
     /**
+     * @param $method Type of request to USGS service [query|count|version]
      * @return $this
      */
-    public function load()
+    public function getRequest($method)
     {
-        $json = $this->client->get($this->client->getUri(), $this->params);
-
-        $this->count = array_key_exists('metadata', $json) ? $json['metadata']['count'] : $json['count'];
-        $this->payLoad = $json;
+        $this->response = $this->client->get(
+            self::BASE_URI . $method,
+            [
+                'query' => $this->params,
+            ]
+        );
 
         return $this;
     }
 
     /**
-     * @param $action
+     * @param $params
+     * @return $this
      */
-    public function setAction($action)
+    public function setParams($params)
     {
-        $this->client->setAction($action);
+        $this->params = $params;
+
+        return $this;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
-     * @param $key
-     * @param $value
-     */
-    public function addParam($key, $value)
-    {
-        $this->params[$key] = $value;
-    }
-
-    /**
-     * @param array $params
-     */
-    public function addParams(array $params)
-    {
-        foreach ($params as $key => $value) {
-            $this->addParam($key, $value);
-        }
+    public function getPayload() {
+        return $this->response->getBody()->getContents();
     }
 
     /**
@@ -90,13 +79,5 @@ class USGS
     public function getCount()
     {
         return $this->count;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPayLoad()
-    {
-        return $this->payLoad;
     }
 }
