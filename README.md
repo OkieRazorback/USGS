@@ -1,3 +1,5 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 A wrapper for the USGS API
 ==========================
 This is a wrapper for the [USGS API](http://earthquake.usgs.gov/fdsnws/event/1/ "United States Geological Survey").
